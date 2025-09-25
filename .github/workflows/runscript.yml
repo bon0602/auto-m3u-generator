@@ -1,9 +1,8 @@
-
 name: Auto Generate M3U
 
 on:
   schedule:
-    - cron: '0 */1200 * * *'  # 每 1200 小時執行一次
+    - cron: '0 */6 * * *'  # 每 6 小時執行一次
   workflow_dispatch:
 
 jobs:
