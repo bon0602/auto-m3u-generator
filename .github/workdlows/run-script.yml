@@ -1,1 +1,32 @@
+name: Auto Generate M3U
 
+on:
+  schedule:
+    - cron: '0 */1200 * * *'  # 每 1200 小時執行一次
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install pycryptodome requests
+
+      - name: Run script
+        run: python generate_m3u.py
+
+      - name: Commit result
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add playlist.txt
+          git commit -m "⏱ 自動更新 M3U 清單"
+          git push
